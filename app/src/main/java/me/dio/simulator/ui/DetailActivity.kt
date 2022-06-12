@@ -1,4 +1,4 @@
-package me.dio.simulator
+package me.dio.simulator.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,5 +16,22 @@ class DetailActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setupMatchesList()
+        setupMatchesRefresh()
+        setupFloatingActivityButton()
+
+    }
+
+    private fun setupMatchesList() {
+        TODO("Not yet implemented setupMatchesList")
+    }
+
+    private fun setupMatchesRefresh() {
+        TODO("Not yet implemented setupMatchesRefresh")
+    }
+    
+    private fun setupFloatingActivityButton() {
+        TODO("Not yet implemented setupFloatingActivityButton")
     }
 }
