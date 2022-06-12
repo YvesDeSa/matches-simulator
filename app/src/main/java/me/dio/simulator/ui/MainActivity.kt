@@ -9,5 +9,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupMatchesList()
+        setupMatchesRefresh()
+        setupFloatingActivityButton()
+    }
+
+    private fun setupMatchesList() {
+        TODO("Not yet implemented setupMatchesList")
+    }
+
+    private fun setupMatchesRefresh() {
+        TODO("Not yet implemented setupMatchesRefresh")
+    }
+
+    private fun setupFloatingActivityButton() {
+        TODO("Not yet implemented setupFloatingActivityButton")
     }
 }
