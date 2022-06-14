@@ -3,18 +3,23 @@ package me.dio.simulator.ui
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import me.dio.simulator.R
 import me.dio.simulator.data.MatchesApi
 import me.dio.simulator.databinding.ActivityMainBinding
 import me.dio.simulator.domain.Match
+import me.dio.simulator.ui.adapter.MatchesAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class MainActivity : AppCompatActivity() {
+    private lateinit var matchesAdapter: RecyclerView.Adapter<MatchesAdapter.ViewHolder>
     private lateinit var binding: ActivityMainBinding
     private lateinit var matchesApi: MatchesApi
 
@@ -25,8 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         setupHttpClient()
         setupMatchesList()
-       // setupMatchesRefresh()
-       // setupFloatingActivityButton()
+        // setupMatchesRefresh()
+        // setupFloatingActivityButton()
     }
 
     private fun setupHttpClient() {
@@ -39,22 +44,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupMatchesList() {
-       matchesApi.getMatches().enqueue(object: Callback<List<Match>>{
-           override fun onResponse(call: Call<List<Match>>, response: Response<List<Match>>) {
-                if(response.isSuccessful) {
-                    var matches = response.body()
-                    Log.i("Simulator", "Success API connexion = " + matches!!.size)
-                }else{
+        binding.rvMatches.setHasFixedSize(true)
+        binding.rvMatches.layoutManager = LinearLayoutManager(this)
+
+        matchesApi.getMatches().enqueue(object : Callback<List<Match>> {
+            override fun onResponse(call: Call<List<Match>>, response: Response<List<Match>>) {
+                if (response.isSuccessful) {
+                    val matches = response.body()
+                    matchesAdapter = MatchesAdapter(matches!!)
+                    binding.rvMatches.adapter = matchesAdapter
+                } else {
                     showErrorMessage()
                 }
-           }
+            }
 
-           override fun onFailure(call: Call<List<Match>>, t: Throwable) {
-               t.message?.let { Log.i("Error", it) }
-               showErrorMessage()
-           }
+            override fun onFailure(call: Call<List<Match>>, t: Throwable) {
+                t.message?.let { Log.i("Error", it) }
+                showErrorMessage()
+            }
 
-       })
+        })
     }
 
     private fun setupMatchesRefresh() {
