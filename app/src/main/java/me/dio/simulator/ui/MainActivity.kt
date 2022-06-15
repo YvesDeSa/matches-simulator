@@ -1,5 +1,7 @@
 package me.dio.simulator.ui
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -16,10 +18,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var matchesAdapter: RecyclerView.Adapter<MatchesAdapter.ViewHolder>
+    private lateinit var matchesAdapter: MatchesAdapter
     private lateinit var binding: ActivityMainBinding
     private lateinit var matchesApi: MatchesApi
 
@@ -30,8 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         setupHttpClient()
         setupMatchesList()
-        // setupMatchesRefresh()
-        // setupFloatingActivityButton()
+        setupMatchesRefresh()
+        setupFloatingActivityButton()
     }
 
     private fun setupHttpClient() {
@@ -47,6 +50,31 @@ class MainActivity : AppCompatActivity() {
         binding.rvMatches.setHasFixedSize(true)
         binding.rvMatches.layoutManager = LinearLayoutManager(this)
 
+        findMatchesFromApi()
+    }
+
+    private fun setupMatchesRefresh() {
+        binding.srlMatches.setOnRefreshListener { this.findMatchesFromApi() }
+    }
+
+    private fun setupFloatingActivityButton() {
+        binding.fabSimulate.setOnClickListener { view ->
+            view.animate().rotationBy(120f).setDuration(500)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        for(i in 0 until matchesAdapter.itemCount){
+                            val match = matchesAdapter.getMatches()[i]
+                            match.homeTeam.score = Random.nextInt(match.homeTeam.stars!! + 1)
+                            match.awayTeam.score = Random.nextInt(match.awayTeam.stars!! + 1)
+                            matchesAdapter.notifyItemChanged(i)
+                        }
+                    }
+                })
+        }
+    }
+
+    private fun findMatchesFromApi() {
+        binding.srlMatches.isRefreshing = true
         matchesApi.getMatches().enqueue(object : Callback<List<Match>> {
             override fun onResponse(call: Call<List<Match>>, response: Response<List<Match>>) {
                 if (response.isSuccessful) {
@@ -56,22 +84,16 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     showErrorMessage()
                 }
+                binding.srlMatches.isRefreshing = false
             }
 
             override fun onFailure(call: Call<List<Match>>, t: Throwable) {
                 t.message?.let { Log.i("Error", it) }
+                binding.srlMatches.isRefreshing = false
                 showErrorMessage()
             }
 
         })
-    }
-
-    private fun setupMatchesRefresh() {
-        TODO("Not yet implemented setupMatchesRefresh")
-    }
-
-    private fun setupFloatingActivityButton() {
-        TODO("Not yet implemented setupFloatingActivityButton")
     }
 
     private fun showErrorMessage() {
