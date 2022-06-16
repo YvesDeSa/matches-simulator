@@ -17,6 +17,7 @@
         <activity
             android:name=".ui.DetailActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:parentActivityName=".ui.MainActivity"
             android:exported="true"/>
         <activity
             android:name=".ui.MainActivity"

@@ -1,11 +1,13 @@
 package me.dio.simulator.ui.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import me.dio.simulator.databinding.MatcheItemBinding
 import me.dio.simulator.domain.Match
+import me.dio.simulator.ui.DetailActivity
 
 
 class MatchesAdapter(private var matches: List<Match>) :
@@ -34,6 +36,12 @@ class MatchesAdapter(private var matches: List<Match>) :
         holder.binding.tvAwayTeamName.text = match.awayTeam.name
         if( match.awayTeam.score != null) {
             holder.binding.twAwayHomeTeamScore.text = match.awayTeam.score.toString()
+        }
+
+        holder.itemView.setOnClickListener{
+            var intent = Intent(context, DetailActivity().javaClass)
+            intent.putExtra(DetailActivity.Extras.MATCH, match)
+            context.startActivity(intent)
         }
     }
 
