@@ -23,6 +23,7 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         loadMatchFromExtra()
     }
 
@@ -30,6 +31,16 @@ class DetailActivity : AppCompatActivity() {
         intent?.extras?.getParcelable<Match>(Extras.MATCH)?.let {
             Glide.with(this).load(it.place.image).into(binding.ivPlace)
             supportActionBar?.title = it.place.name
+
+            binding.tvDescription.text = it.description
+
+            Glide.with(this).load(it.homeTeam.image).into(binding.ivHomeTeam)
+            binding.tvHomeTeamName.text = it.homeTeam.name
+            binding.rbHomeTeamStars.rating = it.homeTeam.stars.toFloat()
+
+            Glide.with(this).load(it.awayTeam.image).into(binding.ivAwayTeam)
+            binding.tvAwayTeamName.text = it.awayTeam.name
+            binding.rbAwayTeamStars.rating = it.awayTeam.stars.toFloat()
         }
     }
 }
