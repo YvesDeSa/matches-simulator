@@ -2,9 +2,13 @@ package me.dio.simulator.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import me.dio.simulator.databinding.ActivityDetailBinding
 import me.dio.simulator.domain.Match
+import me.dio.simulator.domain.Team
 
 class DetailActivity : AppCompatActivity() {
 
@@ -34,13 +38,14 @@ class DetailActivity : AppCompatActivity() {
 
             binding.tvDescription.text = it.description
 
-            Glide.with(this).load(it.homeTeam.image).into(binding.ivHomeTeam)
-            binding.tvHomeTeamName.text = it.homeTeam.name
-            binding.rbHomeTeamStars.rating = it.homeTeam.stars.toFloat()
-
-            Glide.with(this).load(it.awayTeam.image).into(binding.ivAwayTeam)
-            binding.tvAwayTeamName.text = it.awayTeam.name
-            binding.rbAwayTeamStars.rating = it.awayTeam.stars.toFloat()
+            loadTeamOnScreen(it.homeTeam, binding.ivHomeTeam, binding.tvHomeTeamName, binding.rbHomeTeamStars)
+            loadTeamOnScreen(it.awayTeam, binding.ivAwayTeam, binding.tvAwayTeamName, binding.rbAwayTeamStars)
         }
+    }
+
+    private fun loadTeamOnScreen(team: Team, imageView: ImageView, textView: TextView, ratingBar: RatingBar){
+        Glide.with(this).load(team.image).into(imageView)
+        textView.text = team.name
+        ratingBar.rating = team.stars.toFloat()
     }
 }
