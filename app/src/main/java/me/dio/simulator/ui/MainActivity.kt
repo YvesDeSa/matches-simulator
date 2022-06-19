@@ -58,14 +58,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupFloatingActivityButton() {
-        binding.fabSimulate.setOnClickListener { view ->
-            view.animate().rotationBy(120f).setDuration(500)
+        binding.fabSimulate.setOnClickListener {
+            it.animate().rotationBy(120f).setDuration(500)
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         for(i in 0 until matchesAdapter.itemCount){
                             val match = matchesAdapter.getMatches()[i]
-                            match.homeTeam.score = Random.nextInt(match.homeTeam.stars!! + 1)
-                            match.awayTeam.score = Random.nextInt(match.awayTeam.stars!! + 1)
+                            match.homeTeam.score = Random.nextInt(match.homeTeam.stars + 1)
+                            match.awayTeam.score = Random.nextInt(match.awayTeam.stars + 1)
                             matchesAdapter.notifyItemChanged(i)
                         }
                     }

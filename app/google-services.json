@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1042214505044",
+    "project_id": "sumulator-dio-sphoteca",
+    "storage_bucket": "sumulator-dio-sphoteca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042214505044:android:6a528fdf4cb06e4618fbc1",
+        "android_client_info": {
+          "package_name": "me.dio.simulator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042214505044-v3f97pinvq9ebeb4knabgoj2uoacmucp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3CnWP9m4RwydQqrlrMgbsbu8-0MJ6VKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042214505044-v3f97pinvq9ebeb4knabgoj2uoacmucp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
